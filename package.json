@@ -1,32 +1,15 @@
 {
-  "name": "oshada-md-session",
+  "name": "oshada-os-project",
   "version": "1.0.0",
-  "description": "Oshada MD WhatsApp Bot Session & Pairing Code Generator",
+  "description": "A simple project for Replit by OShada Os",
   "main": "index.js",
-  "type": "commonjs",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "oshada",
-    "oshada-md",
-    "whatsapp-bot",
-    "baileys",
-    "pairing-code",
-    "session-generator"
-  ],
-  "author": "Oshada",
+  "author": "OShada Os",
   "license": "MIT",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.0",
-    "express": "^4.19.2",
-    "pino": "^8.17.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.3"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "express": "^4.18.2"
   }
 }
