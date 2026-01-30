@@ -1,7 +1,7 @@
 {
-  "name": "osshada-bot",
+  "name": "osshada-replit-server",
   "version": "1.0.0",
-  "description": "A Replit-ready Node.js project by OShada Os",
+  "description": "A Replit-ready Node.js server by OShada Os with session ID generation",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,22 +12,12 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
-    "axios": "^1.6.5",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://asitha.top/"
-  },
-  "keywords": [
-    "Replit",
-    "Node.js",
-    "bot",
-    "OShada Os"
-  ],
   "engines": {
     "node": ">=18.0.0"
   }
