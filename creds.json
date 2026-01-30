@@ -1,0 +1,59 @@
+const {
+    default: makeWASocket,
+    useMultiFileAuthState,
+    DisconnectReason,
+    fetchLatestBaileysVersion,
+    makeInMemoryStore
+} = require('@whiskeysockets/baileys');
+const pino = require('pino');
+const fs = require('fs');
+
+// --- ඔබේ තොරතුරු මෙතැන ඇතුළත් කරන්න ---
+const SESSION_ID = 'ඔබේ_SESSION_ID_එක_මෙතනට_දමන්න'; 
+// ------------------------------------
+
+async function startPrabathMD() {
+    const { state, saveCreds } = await useMultiFileAuthState('session');
+    const { version } = await fetchLatestBaileysVersion();
+
+    const sock = makeWASocket({
+        version,
+        auth: state,
+        printQRInTerminal: true,
+        logger: pino({ level: 'silent' }),
+        browser: ["Prabath-MD", "Safari", "3.0"]
+    });
+
+    sock.ev.on('creds.update', saveCreds);
+
+    sock.ev.on('connection.update', (update) => {
+        const { connection, lastDisconnect } = update;
+        if (connection === 'close') {
+            let reason = lastDisconnect.error?.output?.statusCode;
+            console.log("සම්බන්ධතාවය විසන්ධි විය. නැවත උත්සාහ කරයි...");
+            startPrabathMD();
+        } else if (connection === 'open') {
+            console.log('✅ Prabath-MD සාර්ථකව සම්බන්ධ විය!');
+            sock.sendMessage(sock.user.id, { text: '*බොට් වැඩ අරඹයි! 🚀*' });
+        }
+    });
+
+    // පණිවිඩ ලැබෙන විට (Commands)
+    sock.ev.on('messages.upsert', async (m) => {
+        const msg = m.messages[0];
+        if (!msg.message || msg.key.fromMe) return;
+
+        const from = msg.key.remoteJid;
+        const text = msg.message.conversation || msg.message.extendedTextMessage?.text || "";
+
+        if (text.startsWith('.ping')) {
+            await sock.sendMessage(from, { text: 'Speed: 100ms ⚡' });
+        }
+        
+        if (text.startsWith('.alive')) {
+            await sock.sendMessage(from, { text: 'මම දැනට සක්‍රීයයි! (Alive) 🛡️' });
+        }
+    });
+}
+
+startPrabathMD();
