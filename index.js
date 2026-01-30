@@ -7,6 +7,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const question = (text) => new Promise((resolve) => rl.question(text, resolve));
 
 async function generateSession() {
+    // පරණ දත්ත නිසා එන අවුල් නැති කරන්න auth_info අලුත් කරමු
     const { state, saveCreds } = await useMultiFileAuthState('auth_info');
     const { version } = await fetchLatestBaileysVersion();
 
@@ -18,17 +19,19 @@ async function generateSession() {
         browser: ["Ubuntu", "Chrome", "20.0.04"],
     });
 
-    // ප්‍රශ්නය අහන්න කලින් තත්පර 3ක් ඉමු (Connection එක හැදෙනකම්)
     if (!sock.authState.creds.registered) {
-        console.log("සම්බන්ධ වෙමින් පවතී... කරුණාකර තත්පර කිහිපයක් රැඳී සිටින්න.");
-        await delay(3000); 
-        const phoneNumber = await question('\nකරුණාකර ඔබේ WhatsApp අංකය ඇතුළත් කරන්න (උදා: 947XXXXXXXX): ');
+        console.log("සම්බන්ධතාවය සකසමින් පවතී... කරුණාකර තත්පර 15ක් රැඳී සිටින්න.");
+        // Replit එකේ Internet එක Stable වෙනකම් හොඳ වෙලාවක් දෙමු
+        await delay(15000); 
+        
+        const phoneNumber = await question('\nඔබේ WhatsApp අංකය ඇතුළත් කරන්න (උදා: 947XXXXXXXX): ');
         
         try {
+            console.log("Pairing Code එක ලබා ගනිමින් පවතී...");
             const code = await sock.requestPairingCode(phoneNumber.trim());
             console.log(`\nඔබේ Pairing Code එක මෙන්න: ${code}\n`);
         } catch (err) {
-            console.log("Pairing Code එක ලබා ගැනීමට නොහැකි වුණා. නැවත උත්සාහ කරන්න.", err);
+            console.log("\nError එකක් ආවා. කරුණාකර නැවත Run කරන්න.");
         }
     }
 
@@ -37,17 +40,14 @@ async function generateSession() {
     sock.ev.on("connection.update", async (update) => {
         const { connection } = update;
         if (connection === "open") {
-            console.log("සම්බන්ධතාවය සාර්ථකයි! ✅");
+            console.log("\nසම්බන්ධතාවය සාර්ථකයි! ✅");
             await delay(5000);
-
             const rawCreds = fs.readFileSync('./auth_info/creds.json');
             const sessionId = Buffer.from(rawCreds).toString('base64');
-
             const myNumber = sock.user.id.split(":")[0] + "@s.whatsapp.net";
-            await sock.sendMessage(myNumber, { text: `*SESSION_ID*::${sessionId}` });
-            
-            console.log("\nSession ID එක ඔබේ WhatsApp එකට එවනු ලැබුවා! 🚀");
-            console.log("බොට් නතර කිරීමට Ctrl + C ඔබන්න.");
+            await sock.sendMessage(myNumber, { text: `SESSION_ID::${sessionId}` });
+            console.log("\nSession ID එක WhatsApp එකට එවනු ලැබුවා! 🚀");
+            process.exit(0);
         }
     });
 }
