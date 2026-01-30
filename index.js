@@ -10,7 +10,7 @@ const pino = require('pino');
 const { Boom } = require('@hapi/boom');
 
 // --- ඔබේ තොරතුරු මෙතැනට ඇතුළත් කරන්න ---
-const SESSION_ID = 'ඔබේ_SESSION_ID_එක_මෙතනට_දමන්න'; 
+const SESSION_ID = 'PRABATH-MD~iDvkBzVQ8OEQFC5'; 
 const PREFIX = '.'; // බොට්ගේ Command වලට පාවිච්චි කරන ලකුණ
 // ------------------------------------
 
