@@ -12,22 +12,26 @@ app.use(express.json());
 
 // Homepage
 app.get('/', (req, res) => {
-  res.send('<h1>Hello from OShada Os!</h1><p>Welcome to my Replit project.</p><p>Go to <a href="/session">/session</a> to get a new session ID</p>');
+  res.send(`
+    <h1>Hello from OShada Os!</h1>
+    <p>Go to <a href="/session">/session</a> for one session ID</p>
+    <p>Go to <a href="/sessions">/sessions</a> for 100 session IDs</p>
+  `);
 });
 
-// Session ID endpoint
+// Single session ID
 app.get('/session', (req, res) => {
-  const sessionId = uuidv4(); // Generate a unique session ID
+  const sessionId = uuidv4();
   res.json({ sessionId });
 });
 
-// Example API route
-app.get('/api/info', (req, res) => {
-  res.json({
-    name: "OShada Os",
-    project: "Replit-ready Node.js server",
-    message: "This is a sample API endpoint!"
-  });
+// 100 session IDs
+app.get('/sessions', (req, res) => {
+  const sessions = [];
+  for (let i = 0; i < 100; i++) {
+    sessions.push(uuidv4());
+  }
+  res.json({ sessions });
 });
 
 // Start server
