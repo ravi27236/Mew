@@ -30,7 +30,7 @@ async function startPrabathMD() {
         const { connection, lastDisconnect } = update;
         if (connection === 'close') {
             let reason = lastDisconnect.error?.output?.statusCode;
-            console.log("සම්බන්ධතාවය විසන්ධි විය. නැවත උත්සාහ කරයි...");
+            console.log("සම්බන්ධතාවය විසන්ධි විය. නැවත ත්සාහ කරයි...");
             startPrabathMD();
         } else if (connection === 'open') {
             console.log('✅ Prabath-MD සාර්ථකව සම්බන්ධ විය!');
