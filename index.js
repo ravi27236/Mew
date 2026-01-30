@@ -16,7 +16,7 @@ async function generateSession() {
         version,
         printQRInTerminal: false,
         logger: pino({ level: "silent" }),
-        browser: ["Ubuntu", "Chrome", "20.0.04"],
+        browser: ["Mac OS", "Chrome", "10.15.7"],
     });
 
     if (!sock.authState.creds.registered) {
