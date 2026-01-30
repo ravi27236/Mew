@@ -1,17 +1,32 @@
 {
-  "name": "whatsapp-session-generator",
+  "name": "oshada-md-session",
   "version": "1.0.0",
-  "description": "WhatsApp Session ID Generator for Replit",
+  "description": "Oshada MD WhatsApp Bot Session & Pairing Code Generator",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
+  "keywords": [
+    "oshada",
+    "oshada-md",
+    "whatsapp-bot",
+    "baileys",
+    "pairing-code",
+    "session-generator"
+  ],
+  "author": "Oshada",
+  "license": "MIT",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.6.0",
-    "pino": "^9.0.0",
-    "readline": "^1.3.0",
-    "fs": "0.0.1-security"
+    "@whiskeysockets/baileys": "^6.7.0",
+    "express": "^4.19.2",
+    "pino": "^8.17.0"
   },
-  "author": "Ravi",
-  "license": "ISC"
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
