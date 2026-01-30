@@ -1,22 +1,24 @@
 // index.js
 // Replit-ready Node.js server by OShada Os
-
-// Load environment variables from .env file
 require('dotenv').config();
-
-// Import Express
 const express = require('express');
-const app = express();
+const { v4: uuidv4 } = require('uuid'); // For session IDs
 
-// Port setup (Replit automatically sets process.env.PORT)
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware to parse JSON
+// Middleware
 app.use(express.json());
 
-// Basic route
+// Homepage
 app.get('/', (req, res) => {
-  res.send('<h1>Hello from OShada Os!</h1><p>Welcome to my Replit project.</p>');
+  res.send('<h1>Hello from OShada Os!</h1><p>Welcome to my Replit project.</p><p>Go to <a href="/session">/session</a> to get a new session ID</p>');
+});
+
+// Session ID endpoint
+app.get('/session', (req, res) => {
+  const sessionId = uuidv4(); // Generate a unique session ID
+  res.json({ sessionId });
 });
 
 // Example API route
@@ -28,7 +30,7 @@ app.get('/api/info', (req, res) => {
   });
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}...`);
 });
